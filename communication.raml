@@ -1,0 +1,416 @@
+#%RAML 1.0
+title: PetShareApi
+baseUri: https://share.pet/api
+version: 1.0
+
+securitySchemes:
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: api-key
+    description: Autoryzacja kluczem API zawierającym informację o roli posiadacza. Istniejące role: adoptujący, schronisko, administrator.
+schemas:
+  User:
+    description: Użytkownik - klasa
+    type: object
+    properties:
+      IsAuthorized:
+        type: boolean
+        example: true
+        description: Czy użytkownik przeszedł weryfikację
+      UserName:
+        type: string
+        example: Piotr Nowak
+        description: Nazwa adoptującego
+      PhoneNumber:
+        type: string
+        example: 512945243
+        description: Numer telefonu
+      Email:
+        type: string
+        example: p.nowak@gmail.com
+        description: Adres email
+      Address:
+        allOf:
+        - $ref: #/schemas/Address
+        description: Adres zamieszkania
+    required:
+      - UserName
+      - PhoneNumber
+      - Email
+      - Address
+  Address:
+    description: Adres - klasa
+    type: object
+    properties:
+      Street:
+        type: string
+        example: Wesoła 4
+        description: Ulica
+      City:
+        type: string
+        example: Warszawa
+        description: Miasto
+      Province:
+        type: string
+        example: Mazowieckie
+        description: Województwo
+      PostalCode:
+        type: string
+        example: 12-345
+        description: Kod pocztowy
+      Country:
+        type: string
+        example: Polska
+        description: Kraj
+    required:
+      - Street
+      - City
+      - Province
+      - PostalCode
+      - Country
+  Application:
+    description: Aplikacja - klasa
+    type: object
+    properties:
+      ID?:
+        type: integer
+        description: ID aplikacji
+      DateOfAplication:
+        type: datetime
+      User:
+        allOf:
+        - $ref: #/schemas/User
+      required:
+        - DateOfAplication
+        - User
+  Announcement:
+    description: Ogłoszenie - klasa
+    type: object
+    properties:
+      ID?:
+        type: integer
+        description: ID schroniska
+      Title:
+        type: string
+        description: Tytuł ogłoszenia
+        example: Oddam kotka
+      Decription:
+        type: string
+        description: Opis ogłoszenia
+        example: Oddam kotka do dobrego domu ładnego
+      CreationDate:
+        type: DateTime
+        example: 2018-02-28T16:41:41.090Z
+        description: Data wystawienia ogłoszenia
+      ClosingDate:
+        type: DateTime
+        example: 2018-02-28T16:41:41.090Z
+        description: Data zamknięcia ogłoszenia
+      status:
+        enum: [Otwarte, Zamknięte]
+        type: string
+        example: Otwarte
+        description: Status ogłoszenia
+      IDPet:
+        type: integer
+        description: ID zwierzątka
+        $ref: #/types/Pet
+  Pet:
+    description: Zwierzątko - klasa
+    type: object
+    properties:
+      ID:
+        type: integer
+        description: ID zwierzątka
+      Name:
+        type: string
+        description: Imię zwierzątka
+        example: Puszek
+      Species:
+        type: string
+        description: Gatunek zwierzątka
+        example: kot
+      Breed:
+        type: string
+        description: Rasa zwierzątka
+        example: norweski leśny
+      Birthday:
+        type: DateTime
+        example: 2018-02-28T16:41:41.090Z
+        description: Data urodzin zwierzątka
+      Description:
+        type: string
+        description: Opis zwierzątka
+        example: Ładny kotek ale wredny
+      Photo:
+        description: Zdjęcia zwierzątka
+        type: byte[]
+  Report:
+    description: Zgłoszenie - struktura
+    type: object
+    properties:
+      reportType:
+        type: string
+        enum: [adopter, announcement, shelter]
+        example: announcement
+        description: Typ zgłoszenia (kogo dotyczy)
+      targetId:
+        type: integer
+        example: 1
+        description: identyfikator celu zgłoszenia
+      message:
+        type: string
+        example: Obraźliwy opis ogłoszenia :(
+        description: Opis zgłoszenia
+      state:
+        type: string
+        enum: [new, declined, accepted]
+        example: new
+/announcements:
+  get:
+    description: Zwróć wszystkie ogłoszenia dla zalogowanego schroniska
+    responses:
+      201:
+        description: Zwrócono ogłoszenia
+        body:
+          application/json:
+            type: Announcement[]
+      400:
+        description: Pobieranie ogłoszeń nie powiodło się
+      401:
+        description: Brak dostępu
+  /{id}:
+    get:
+      description: Zwróć ogłoszenie o podanym id
+      responses:
+        201:
+          description: Zwrócono ogłoszenie
+          body:
+            application/json:
+              type: Announcement
+        400:
+          description: Pobieranie ogłoszenia nie powiodło się
+        401:
+          description: Brak dostępu
+  /add:
+    post:
+      description: Utworzenie ogłoszenia
+      requestBody:
+        description: Dane nowego ogłoszenia
+        required: true
+        body:
+          application/json:
+            type: Announcement
+      responses:
+        201:
+          description: Ogłoszenie zostało dodane
+          body:
+            application/json:
+              type: integer
+              description: Identyfikator ogłoszenia
+        400:
+          description: Ogłoszenie nie zostało utworzone
+    /{announcementId}:
+      put:
+        description: Uaktualnia ogłoszenie, używane do blokowania
+        ApiKeyAuth: [Admin]
+        content:
+          application/json:
+            schema:
+              $ref: #/schemas/Announcement
+        responses:
+          200:
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: #/schemas/Announcement
+          403:
+            description: Brak uprawnień administratora
+      /available:
+        get:
+          description: Czy oferta jest nadal aktualna?
+          security:
+            ApiKeyAuth: [Adopter]
+          responses:
+            200:
+              description: Oferta aktualna
+            201:
+              description: Oferta nieaktualna
+            400:
+              description: Sprawdzenie stanu dostępności nie powiodło się
+            401:
+              description: Brak dostępu
+/applications:
+  post:
+    description: Utworzenie nowego wniosku
+    requestBody:
+      description: Dane nowego wniosku
+        required: true
+        content:
+          application/json:
+            schema:
+            $ref: #/schemas/Application
+        responses:
+          200:
+            description: Aplikacja została stworzona
+            content:
+              application/json:
+                schema:
+                  $ref: #/schemas/id
+                  description: Identyfikator aplikacji
+          400:
+            description: Aplikacja nie została utworzona
+  /{applicationId}:
+    /accept:
+      put:
+        description: Wniosek zaakceptowany
+            security:
+            ApiKeyAuth: [Shelter]
+            responses:
+            200:
+              description: Ok
+            400:
+              description: Zmiana statusu nie powiodła się
+            401:
+              description: Brak dostępu
+    /reject:
+      put:
+        description: Wniosek odrzucony
+            security:
+            ApiKeyAuth: [Shelter]
+            responses:
+            200:
+              description: Ok
+            400:
+              description: Zmiana statusu nie powiodła się
+            401:
+              description: Brak dostępu
+/reports:
+  get:
+    ApiKeyAuth: [Admin]
+    decription: Gets all reports without answer
+    responses:
+      200:
+        description: OK
+        body:
+          application/json:
+            schema:
+              type: schemas.Report[]
+      403:
+        description: Brak uprawnień administratora
+  post:
+    description: Dodaje nowe zgłoszenie
+    body:
+      application/json:
+        type: Report
+    responses:
+      200:
+        description: OK
+      400:
+        description: Bad request
+      408:
+        description: Timeout
+  put:
+    decription: Uaktualnia zgłoszenie po id
+    ApiKeyAuth: [Admin]
+    content:
+      application/json:
+        schema:
+          $ref: #/components/schemas/Report
+    responses:
+      200:
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: #/components/schemas/Report
+      403:
+        description: Brak uprawnień administratora
+
+      put:
+        description: Uaktualnia ogłoszenie, używane do blokowania
+        ApiKeyAuth: [Admin]
+        content:
+          application/json:
+            schema:
+              $ref: #/schemas/Announcement
+        responses:
+          200:
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: #/schemas/Announcement
+          403:
+            description: Brak uprawnień administratora
+/shelter:
+  post:
+    description: Dodaje nowe schronisko
+    body:
+      application/json:
+        type: Shelter
+    responses:
+      200:
+        description: OK
+      400:
+        description: Bad request
+      408:
+        description: Timeout
+  /{shelterId}:
+    put:
+      description: Uaktualnia schronisko, używane do blokowania i weryfikacji
+      ApiKeyAuth: [Admin]
+      content:
+        application/json:
+          schema:
+            $ref: #/schemas/Shelter
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: #/schemas/Shelter
+        403:
+          description: Brak uprawnień administratora
+/adopter:
+  post:
+    description: Dodaje nowego adoptującego
+    body:
+      application/json:
+        type: Adopter
+    responses:
+      200:
+        description: OK
+      400:
+        description: Bad request
+      408:
+        description: Timeout
+  /{adopterId}:
+    put:
+      description: Uaktualnia użytkownika, używane do blokowania i weryfikacji
+      ApiKeyAuth: [Admin]
+      content:
+        application/json:
+          schema:
+            $ref: #/schemas/User
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: #/schemas/User
+        403:
+          description: Brak uprawnień administratora
+    /authorize:
+      post:
+        description: Zakończenie weryfikacji adoptującego
+        ApiKeyAuth: [Shelter]
+        responses:
+          200:
+            description: OK
+          403:
+            description: Brak uprawnień administratora
