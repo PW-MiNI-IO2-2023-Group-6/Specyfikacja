@@ -194,28 +194,33 @@ required:
     description: Zwróć wszystkie ogłoszenia spełniające filtry
     queryParameters: 
 	  species: 
-	    description: Gatunek zwierzątka
-	    type: string
+	    description: Gatunki zwierzątek
+	    type: string[]
 	    required: false
 	    example: Pies
-	  breed: 
-	    description: Rasa zwierzątka
-	    type: string
+	  breeds: 
+	    description: Rasy zwierzątek
+	    type: string[]
 	    required: false
 	    example: Norweski leśny
-	  location: 
-	    description: Miejscowość schroniska
-	    type: string
+	  locations: 
+	    description: Miejscowości schroniska
+	    type: string[]
 	    required: false
 	    example: Warszawa
-	  age: 
-	    description: Wiek zwierzątka w dniach
+	  minAge: 
+	    description: Minimalny wiek zwierzątka w dniach
 	    type: int
 	    required: false
-	    example: Warszawa
-	  shelterName: 
-	    description: Nazwa schroniska
-	    type: string
+	    example: 21
+	  maxAge: 
+	    description: Maksymalny wiek zwierzątka w dniach
+	    type: int
+	    required: false
+	    example: 365
+	  shelterNames: 
+	    description: Nazwy schronisk
+	    type: string[]
 	    required: false
 	    example: Schronisko na Paluchu
     responses:
@@ -228,6 +233,8 @@ required:
         description: Pobieranie ogłoszeń nie powiodło się
       401:
         description: Brak dostępu
+      402:
+        description: Podane filtry zawierają błędy
   post:
     description: Utworzenie ogłoszenia
     requestBody:
