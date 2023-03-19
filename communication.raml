@@ -516,19 +516,20 @@ required:
         description: Bad request
       408:
         description: Timeout
-  get:
-    description: Zwraca wszystkie zwierzęta dla danego schroniska
-    ApiKeyAuth: [Shelter] 
-    body:
-      application/json:
-        type: Pet[]
-    responses:
-      200:
-        description: OK
-      400:
-        description: Bad request
-      403:
-  description: Brak uprawnień schroniska
+  /my:
+    get:
+      description: Zwraca wszystkie zwierzęta dla danego schroniska
+      ApiKeyAuth: [Shelter] 
+      body:
+	application/json:
+	  type: Pet[]
+      responses:
+	200:
+          description: OK
+	400:
+	  description: Bad request
+	403:
+	  description: Brak uprawnień schroniska
   /{petId}:
     get:
       description: Zwraca zwierzątko o danym id
