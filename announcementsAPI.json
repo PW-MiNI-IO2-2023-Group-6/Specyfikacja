@@ -181,20 +181,6 @@
       }
     },
     "/pet": {
-      "get": {
-        "tags": [
-          "PetEndpoints"
-        ],
-        "summary": "Gets all pets for shelter. Requires shelter role. Gets shelter id from auth claims.",
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "401": {
-            "description": "Client error"
-          }
-        }
-      },
       "post": {
         "tags": [
           "PetEndpoints"
