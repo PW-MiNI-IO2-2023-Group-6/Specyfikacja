@@ -366,11 +366,6 @@
           "description": {
             "type": "string",
             "nullable": true
-          },
-          "photo": {
-            "type": "string",
-            "format": "byte",
-            "nullable": true
           }
         },
         "additionalProperties": false
