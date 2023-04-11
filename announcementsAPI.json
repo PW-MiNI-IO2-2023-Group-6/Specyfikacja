@@ -400,11 +400,6 @@
             "type": "string",
             "nullable": true
           },
-          "petId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
           "status": {
             "$ref": "#/components/schemas/Status"
           }
