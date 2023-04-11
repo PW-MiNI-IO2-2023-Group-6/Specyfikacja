@@ -75,11 +75,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": { }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -159,9 +154,6 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "content": {
-              "application/json": { }
             }
           }
         ],
@@ -267,9 +259,6 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "content": {
-              "application/json": { }
             }
           }
         ],
@@ -310,9 +299,6 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "content": {
-              "multipart/form-data": { }
             }
           }
         ],
@@ -460,7 +446,7 @@
   },
   "security": [
     {
-      "Bearer": [ ]
+      "Bearer": []
     }
   ]
 }
