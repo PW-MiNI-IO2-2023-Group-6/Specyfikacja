@@ -1,0 +1,457 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "AdopterAPI",
+    "version": "v1"
+  },
+  "paths": {
+    "/adopter": {
+      "get": {
+        "tags": [
+          "AdopterEndpoints"
+        ],
+        "summary": "Get all adopters. Requires admin role.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Client error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "AdopterEndpoints"
+        ],
+        "summary": "Posts new adopter.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostAdopterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Client error"
+          }
+        }
+      }
+    },
+    "/adopter/{adopterId}": {
+      "get": {
+        "tags": [
+          "AdopterEndpoints"
+        ],
+        "summary": "Get adopter by id. Requires admin role (any adopter) or adopter role (only matching id).",
+        "parameters": [
+          {
+            "name": "adopterId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Client error"
+          },
+          "404": {
+            "description": "Client error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AdopterEndpoints"
+        ],
+        "summary": "Updates adopter. Requires admin role.",
+        "parameters": [
+          {
+            "name": "adopterId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PutAdopterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Client error"
+          }
+        }
+      }
+    },
+    "/adopter/{adopterId}/isVerified": {
+      "get": {
+        "tags": [
+          "AdopterEndpoints"
+        ],
+        "summary": "Gets info if specified adopter is verified by shelter provided in token. Requires shelter role.",
+        "parameters": [
+          {
+            "name": "adopterId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Client error"
+          }
+        }
+      }
+    },
+    "/adopter/{adopterId}/verify": {
+      "put": {
+        "tags": [
+          "AdopterEndpoints"
+        ],
+        "summary": "Verifies adopter for shelter provided in token. Requires shelter role.",
+        "parameters": [
+          {
+            "name": "adopterId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client error"
+          },
+          "401": {
+            "description": "Client error"
+          }
+        }
+      }
+    },
+    "/applications": {
+      "get": {
+        "tags": [
+          "ApplicationsEndpoints"
+        ],
+        "summary": "Gets all applications. Requires any role. For shelter, applications are filtered only for that shelter. For adopter, applications are filtered only for that adopter. Admin gets them all.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client error"
+          },
+          "401": {
+            "description": "Client error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ApplicationsEndpoints"
+        ],
+        "summary": "Posts new application. Requires adopter role matching with requested application's adopterId.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostApplicationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Client error"
+          }
+        }
+      }
+    },
+    "/applications/{announcementId}": {
+      "get": {
+        "tags": [
+          "ApplicationsEndpoints"
+        ],
+        "summary": "Gets application for specified announcement. Requires shelter role matching with announcement's shelter.",
+        "parameters": [
+          {
+            "name": "announcementId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Client error"
+          }
+        }
+      }
+    },
+    "/applications/{applicationId}/accept": {
+      "put": {
+        "tags": [
+          "ApplicationsEndpoints"
+        ],
+        "summary": "Accepts application. Requires shelter role matching with shelterId of application.",
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client error"
+          },
+          "401": {
+            "description": "Client error"
+          }
+        }
+      }
+    },
+    "/applications/{applicationId}/reject": {
+      "put": {
+        "tags": [
+          "ApplicationsEndpoints"
+        ],
+        "summary": "Rejects application. Requires shelter role matching with shelterId of application.",
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client error"
+          },
+          "401": {
+            "description": "Client error"
+          }
+        }
+      }
+    },
+    "/applications/{applicationId}/withdraw": {
+      "put": {
+        "tags": [
+          "ApplicationsEndpoints"
+        ],
+        "summary": "Withdraws application. Requires adopter role matching with adopterId of application.",
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client error"
+          },
+          "401": {
+            "description": "Client error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AdopterDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/NewAddress"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AdopterStatus"
+          }
+        }
+      },
+      "AdopterStatus": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32",
+        "description": "0 - Active, 1 - Blocked, 2 - Deleted"
+      },
+      "NewAddress": {
+        "type": "object",
+        "properties": {
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "province": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PostAdopterRequest": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/NewAddress"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PostApplicationRequest": {
+        "type": "object",
+        "properties": {
+          "announcementId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "adopterId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PutAdopterRequest": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/AdopterStatus"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ]
+}
