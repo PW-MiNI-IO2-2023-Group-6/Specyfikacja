@@ -370,14 +370,14 @@
         "properties": {
           "name": {
             "type": "string",
-            "nullable": true
+            "nullable": false
           },
           "sex":{
             "$ref": "#/components/schemas/Sex"
           },
           "species": {
             "type": "string",
-            "nullable": true
+            "nullable": false
           },
           "breed": {
             "type": "string",
@@ -409,14 +409,14 @@
           },
           "name": {
             "type": "string",
-            "nullable": true
+            "nullable": false
           },
           "sex":{
             "$ref": "#/components/schemas/Sex"
           },
           "species": {
             "type": "string",
-            "nullable": true
+            "nullable": false
           },
           "breed": {
             "type": "string",
