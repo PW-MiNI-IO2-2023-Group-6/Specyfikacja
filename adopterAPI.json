@@ -58,7 +58,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -159,10 +160,13 @@
             "description": "Success"
           },
           "400": {
-            "description": "Client error"
+            "description": "Adopter already verified"
           },
           "401": {
             "description": "Client error"
+          },
+          "404": {
+            "description": "Adopter doesn't exist"
           }
         }
       }
@@ -189,7 +193,7 @@
         "tags": [
           "ApplicationsEndpoints"
         ],
-        "summary": "Posts new application. Requires adopter role matching with requested application's adopterId.",
+        "summary": "Posts new application. Requires adopter role. Gets adopter ID from token.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -371,24 +375,19 @@
         "type": "object",
         "properties": {
           "street": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "city": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "province": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "postalCode": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "country": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -418,11 +417,6 @@
         "type": "object",
         "properties": {
           "announcementId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "adopterId": {
             "type": "string",
             "format": "uuid",
             "nullable": true
