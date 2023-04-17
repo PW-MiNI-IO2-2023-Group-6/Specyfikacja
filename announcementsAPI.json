@@ -112,6 +112,22 @@
         }
       }
     },
+    "/shelter/announcements": {
+      "get": {
+        "tags": [
+          "AnnouncementsEndpoints"
+        ],
+        "summary": "Gets all announcements for shelter. Requires shelter role. Gets shelter id from auth claims.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/announcements/{announcementId}": {
       "get": {
         "tags": [
@@ -202,6 +218,22 @@
           },
           "401": {
             "description": "Client error"
+          }
+        }
+      }
+    },
+    "/shelter/pets": {
+      "get": {
+        "tags": [
+          "PetEndpoints"
+        ],
+        "summary": "Gets all pets for shelter. Requires shelter role. Gets shelter id from auth claims.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
