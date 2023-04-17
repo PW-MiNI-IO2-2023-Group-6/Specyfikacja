@@ -78,9 +78,6 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "content": {
-              "application/json": { }
             }
           }
         ],
@@ -179,7 +176,7 @@
   },
   "security": [
     {
-      "Bearer": [ ]
+      "Bearer": []
     }
   ]
 }
