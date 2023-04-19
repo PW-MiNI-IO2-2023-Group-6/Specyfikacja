@@ -75,11 +75,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": { }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -113,6 +108,22 @@
           },
           "401": {
             "description": "Client error"
+          }
+        }
+      }
+    },
+    "/shelter/announcements": {
+      "get": {
+        "tags": [
+          "AnnouncementsEndpoints"
+        ],
+        "summary": "Gets all announcements for shelter. Requires shelter role. Gets shelter id from auth claims.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -159,9 +170,6 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "content": {
-              "application/json": { }
             }
           }
         ],
@@ -189,27 +197,6 @@
       }
     },
     "/pet": {
-      "get": {
-        "tags": [
-          "PetEndpoints"
-        ],
-        "summary": "Gets all pets for shelter. Requires shelter role. Gets shelter id from auth claims.",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json":{
-                "schema":{
-                  "$ref": "#/components/schemas/PetResponse"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "401": {
-            "description": "Client error"
-          }
-        }
-      },
       "post": {
         "tags": [
           "PetEndpoints"
@@ -231,6 +218,29 @@
           },
           "401": {
             "description": "Client error"
+          }
+        }
+      }
+    },
+    "/shelter/pets": {
+      "get": {
+        "tags": [
+          "PetEndpoints"
+        ],
+        "summary": "Gets all pets for shelter. Requires shelter role. Gets shelter id from auth claims.",
+        "responses": {
+          "200": {
+           "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/PetResponse"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -274,9 +284,6 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "content": {
-              "application/json": { }
             }
           }
         ],
@@ -317,9 +324,6 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "content": {
-              "multipart/form-data": { }
             }
           }
         ],
@@ -432,7 +436,7 @@
           },
           "photo": {
             "type": "string",
-            "format": "byte",
+            "format": "uri",
             "nullable": true
           },
           "status":{
