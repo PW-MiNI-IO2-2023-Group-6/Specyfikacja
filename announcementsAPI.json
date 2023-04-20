@@ -397,7 +397,7 @@
           },
           "photoUrl": {
             "type": "string",
-            "format": "byte",
+            "format": "uri",
             "nullable": true
           }
         },
