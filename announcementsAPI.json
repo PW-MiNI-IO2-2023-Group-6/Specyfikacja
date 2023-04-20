@@ -504,9 +504,9 @@
       },
       "Sex":{
         "enum":[
+          "unknown",
           "male",
           "female",
-          "unknown",
           "doesNotApply"
         ],
         "type": "string"
