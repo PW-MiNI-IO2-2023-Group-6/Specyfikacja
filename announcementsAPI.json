@@ -395,7 +395,7 @@
             "type": "string",
             "nullable": true
           },
-          "photo": {
+          "photoUrl": {
             "type": "string",
             "format": "byte",
             "nullable": true
@@ -434,7 +434,7 @@
             "type": "string",
             "nullable": true
           },
-          "photo": {
+          "photoUrl": {
             "type": "string",
             "format": "uri",
             "nullable": true
