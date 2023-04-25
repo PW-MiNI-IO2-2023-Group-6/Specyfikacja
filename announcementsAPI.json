@@ -77,7 +77,17 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success", 
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnnouncementDTO"
+                  }
+                }
+              }
+            }
           },
           "401": {
             "description": "Client error"
@@ -120,7 +130,17 @@
         "summary": "Gets all announcements for shelter. Requires shelter role. Gets shelter id from auth claims.",
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success", 
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnnouncementDTO"
+                  }
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -147,7 +167,14 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success", 
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementDTO"
+                }
+              }
+            }
           },
           "404": {
             "description": "Client error"
@@ -233,7 +260,7 @@
            "content": {
               "application/json":{
                 "schema":{
-                  "$ref": "#/components/schemas/PetResponse"
+                  "$ref": "#/components/schemas/PetDTO"
                 }
               }
             },
@@ -264,6 +291,13 @@
         ],
         "responses": {
           "200": {
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/PetDTO"
+                }
+              }
+            },
             "description": "Success"
           },
           "404": {
@@ -351,6 +385,52 @@
   },
   "components": {
     "schemas": {
+      "AnnouncementDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "closingDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastUpdateDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AnnouncementStatus"
+          },
+          "pet": {
+            "$ref": "#/components/schemas/PetDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AnnouncementStatus": {
+        "enum": [
+          "Open",
+          "Closed",
+          "DuringVerification",
+          "Deleted"
+        ],
+        "type": "string"
+      },
       "PostAnnouncementRequest": {
         "type": "object",
         "properties": {
@@ -403,7 +483,7 @@
         },
         "additionalProperties": false
       },
-      "PetResponse": {
+      "PetDTO": {
         "type": "object",
         "properties": {
           "id": {
@@ -441,6 +521,65 @@
           },
           "status":{
             "$ref": "#/components/schemas/PetStatus"
+          },
+          "shelter": {
+            "$ref": "#/components/schemas/ShelterDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ShelterDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullShelterName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isAuthorized": {
+            "type": "boolean"
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddressDTO": {
+        "type": "object",
+        "properties": {
+          "street": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "province": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -457,7 +596,7 @@
             "nullable": true
           },
           "status": {
-            "$ref": "#/components/schemas/Status"
+            "$ref": "#/components/schemas/AnnouncementStatus"
           }
         },
         "additionalProperties": false
@@ -491,16 +630,6 @@
           }
         },
         "additionalProperties": false
-      },
-      "Status": {
-        "enum": [
-          0,
-          1,
-          2,
-          3
-        ],
-        "type": "integer",
-        "format": "int32"
       },
       "Sex":{
         "enum":[
