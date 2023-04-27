@@ -108,24 +108,19 @@
         "type": "object",
         "properties": {
           "street": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "city": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "province": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "postalCode": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "country": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -134,20 +129,16 @@
         "type": "object",
         "properties": {
           "userName": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "phoneNumber": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "email": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "fullShelterName": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "address": {
             "$ref": "#/components/schemas/NewAddress"

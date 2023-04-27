@@ -141,7 +141,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -230,9 +231,9 @@
         "summary": "Gets all pets for shelter. Requires shelter role. Gets shelter id from auth claims.",
         "responses": {
           "200": {
-           "content": {
-              "application/json":{
-                "schema":{
+            "content": {
+              "application/json": {
+                "schema": {
                   "$ref": "#/components/schemas/PetResponse"
                 }
               }
@@ -258,7 +259,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -323,7 +325,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -355,12 +358,10 @@
         "type": "object",
         "properties": {
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "description": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "petId": {
             "type": "string",
@@ -373,27 +374,23 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string",
-            "nullable": false
+            "type": "string"
           },
-          "sex":{
+          "sex": {
             "$ref": "#/components/schemas/Sex"
           },
           "species": {
-            "type": "string",
-            "nullable": false
+            "type": "string"
           },
           "breed": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "birthday": {
             "type": "string",
             "format": "date-time"
           },
           "description": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "photoUrl": {
             "type": "string",
@@ -408,38 +405,33 @@
         "properties": {
           "id": {
             "type": "string",
-            "format": "uuid",
-            "nullable": false
+            "format": "uuid"
           },
           "name": {
-            "type": "string",
-            "nullable": false
+            "type": "string"
           },
-          "sex":{
+          "sex": {
             "$ref": "#/components/schemas/Sex"
           },
           "species": {
-            "type": "string",
-            "nullable": false
+            "type": "string"
           },
           "breed": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "birthday": {
             "type": "string",
             "format": "date-time"
           },
           "description": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "photoUrl": {
             "type": "string",
             "format": "uri",
             "nullable": true
           },
-          "status":{
+          "status": {
             "$ref": "#/components/schemas/PetStatus"
           }
         },
@@ -457,7 +449,8 @@
             "nullable": true
           },
           "status": {
-            "$ref": "#/components/schemas/Status"
+            "$ref": "#/components/schemas/Status",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -486,8 +479,9 @@
             "type": "string",
             "nullable": true
           },
-          "status":{
-            "$ref": "#/components/schemas/UpdatePetStatus"
+          "status": {
+            "$ref": "#/components/schemas/PetStatus",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -502,8 +496,8 @@
         "type": "integer",
         "format": "int32"
       },
-      "Sex":{
-        "enum":[
+      "Sex": {
+        "enum": [
           "unknown",
           "male",
           "female",
@@ -511,21 +505,12 @@
         ],
         "type": "string"
       },
-      "PetStatus":{
-        "enum":[
+      "PetStatus": {
+        "enum": [
           "active",
           "deleted"
         ],
-        "type": "string",
-        "nullable": false
-      },
-      "UpdatePetStatus":{
-        "enum":[
-          "active",
-          "deleted"
-        ],
-        "type": "string",
-        "nullable": true
+        "type": "string"
       }
     },
     "securitySchemes": {
