@@ -105,9 +105,6 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "content": {
-              "application/json": { }
             }
           }
         ],
@@ -602,11 +599,6 @@
         "type": "object",
         "properties": {
           "announcementId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "adopterId": {
             "type": "string",
             "format": "uuid",
             "nullable": true
