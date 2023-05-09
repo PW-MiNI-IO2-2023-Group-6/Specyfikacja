@@ -13,7 +13,17 @@
         "summary": "Get all adopters. Requires admin role.",
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdopterDTO"
+                  }
+                }
+              }
+            }
           },
           "401": {
             "description": "Client error"
@@ -65,7 +75,14 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdopterDTO"
+                }
+              }
+            }
           },
           "401": {
             "description": "Client error"
@@ -130,7 +147,14 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
           },
           "401": {
             "description": "Client error"
@@ -179,7 +203,17 @@
         "summary": "Gets all applications. Requires any role. For shelter, applications are filtered only for that shelter. For adopter, applications are filtered only for that adopter. Admin gets them all.",
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationDTO"
+                  }
+                }
+              }
+            }
           },
           "400": {
             "description": "Client error"
@@ -233,7 +267,17 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationDTO"
+                  }
+                }
+              }
+            }
           },
           "401": {
             "description": "Client error"
@@ -334,6 +378,32 @@
   },
   "components": {
     "schemas": {
+      "AddressDTO": {
+        "type": "object",
+        "properties": {
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "province": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "AdopterDTO": {
         "type": "object",
         "properties": {
@@ -354,40 +424,152 @@
             "nullable": true
           },
           "address": {
-            "$ref": "#/components/schemas/NewAddress"
+            "$ref": "#/components/schemas/AddressDTO"
           },
           "status": {
-            "$ref": "#/components/schemas/AdopterStatus"
+            "$ref": "#/components/schemas/AdopterStatusDTO"
           }
-        }
+        },
+        "additionalProperties": false
       },
       "AdopterStatus": {
         "enum": [
-          0,
-          1,
-          2
+          "Active",
+          "Blocked",
+          "Deleted"
         ],
-        "type": "integer",
-        "format": "int32",
-        "description": "0 - Active, 1 - Blocked, 2 - Deleted"
+        "type": "string"
       },
-      "NewAddress": {
+      "AdopterStatusDTO": {
+        "enum": [
+          "Active",
+          "Blocked",
+          "Deleted"
+        ],
+        "type": "string"
+      },
+      "AnnouncementDTO": {
         "type": "object",
         "properties": {
-          "street": {
-            "type": "string"
+          "id": {
+            "type": "string",
+            "format": "uuid"
           },
-          "city": {
-            "type": "string"
+          "title": {
+            "type": "string",
+            "nullable": true
           },
-          "province": {
-            "type": "string"
+          "description": {
+            "type": "string",
+            "nullable": true
           },
-          "postalCode": {
-            "type": "string"
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
           },
-          "country": {
-            "type": "string"
+          "closingDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastUpdateDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AnnouncementStatusDTO"
+          },
+          "pet": {
+            "$ref": "#/components/schemas/PetDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AnnouncementStatusDTO": {
+        "enum": [
+          "Open",
+          "Closed",
+          "DuringVerification",
+          "Deleted"
+        ],
+        "type": "string"
+      },
+      "ApplicationDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastUpdateDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "announcementId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "announcement": {
+            "$ref": "#/components/schemas/AnnouncementDTO"
+          },
+          "adopter": {
+            "$ref": "#/components/schemas/AdopterDTO"
+          },
+          "applicationStatus": {
+            "$ref": "#/components/schemas/ApplicationStatusDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApplicationStatusDTO": {
+        "enum": [
+          "Created",
+          "Accepted",
+          "Rejected",
+          "Withdrawn",
+          "Deleted"
+        ],
+        "type": "string"
+      },
+      "PetDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "shelter": {
+            "$ref": "#/components/schemas/ShelterDTO"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "species": {
+            "type": "string",
+            "nullable": true
+          },
+          "breed": {
+            "type": "string",
+            "nullable": true
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "photoUrl": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -408,7 +590,7 @@
             "nullable": true
           },
           "address": {
-            "$ref": "#/components/schemas/NewAddress"
+            "$ref": "#/components/schemas/AddressDTO"
           }
         },
         "additionalProperties": false
@@ -432,6 +614,38 @@
           }
         },
         "additionalProperties": false
+      },
+      "ShelterDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullShelterName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isAuthorized": {
+            "type": "boolean"
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressDTO"
+          }
+        },
+        "additionalProperties": false
       }
     },
     "securitySchemes": {
@@ -445,7 +659,7 @@
   },
   "security": [
     {
-      "Bearer": []
+      "Bearer": [ ]
     }
   ]
 }
