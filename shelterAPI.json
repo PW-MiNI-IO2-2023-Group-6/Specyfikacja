@@ -11,19 +11,43 @@
           "Endpoints"
         ],
         "summary": "Gets all shelters.",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "required": true,
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of requested page, indexed from 0. Mandatory."
+            }
+          },
+          {
+            "name": "pageCount",
+            "required": true,
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of items to return. Mandatory."
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success", 
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ShelterDTO"
-                  }
+                  "$ref": "#/components/schemas/GetSheltersResponse"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad request - lack of mandatory query parameters."
           }
         }
       },
@@ -121,6 +145,27 @@
   },
   "components": {
     "schemas": {
+      "GetSheltersResponse": {
+        "type": "object",
+        "properties": {
+          "shelters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShelterDTO"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of returned page, indexed from 0."
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of all items in collection."
+          }
+        }
+      },
       "ShelterDTO": {
         "type": "object",
         "properties": {

@@ -13,6 +13,28 @@
         "summary": "Gets all announcements filtered with query parameters",
         "parameters": [
           {
+            "name": "pageNumber",
+            "required": true,
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of requested page, indexed from 0. Mandatory."
+            }
+          },
+          {
+            "name": "pageCount",
+            "required": true,
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of items to return. Mandatory."
+            }
+          },
+          {
             "name": "species",
             "in": "query",
             "style": "form",
@@ -77,17 +99,17 @@
         ],
         "responses": {
           "200": {
-            "description": "Success", 
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AnnouncementDTO"
-                  }
+                  "$ref": "#/components/schemas/GetAnnouncementsResponse"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad request - lack of mandatory query parameters."
           },
           "401": {
             "description": "Client error"
@@ -128,19 +150,43 @@
           "AnnouncementsEndpoints"
         ],
         "summary": "Gets all announcements for shelter. Requires shelter role. Gets shelter id from auth claims.",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "required": true,
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of requested page, indexed from 0. Mandatory."
+            }
+          },
+          {
+            "name": "pageCount",
+            "required": true,
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of items to return. Mandatory."
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Success", 
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AnnouncementDTO"
-                  }
+                  "$ref": "#/components/schemas/GetAnnouncementsResponse"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad request - lack of mandatory query parameters."
           },
           "401": {
             "description": "Unauthorized"
@@ -167,7 +213,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success", 
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
@@ -255,16 +301,43 @@
           "PetEndpoints"
         ],
         "summary": "Gets all pets for shelter. Requires shelter role. Gets shelter id from auth claims.",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "required": true,
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of requested page, indexed from 0. Mandatory."
+            }
+          },
+          {
+            "name": "pageCount",
+            "required": true,
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of items to return. Mandatory."
+            }
+          }
+        ],
         "responses": {
           "200": {
-           "content": {
-              "application/json":{
-                "schema":{
-                  "$ref": "#/components/schemas/PetDTO"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPetsResponse"
                 }
               }
             },
             "description": "Success"
+          },
+          "400": {
+            "description": "Bad request - lack of mandatory query parameters."
           },
           "401": {
             "description": "Unauthorized"
@@ -292,8 +365,8 @@
         "responses": {
           "200": {
             "content": {
-              "application/json":{
-                "schema":{
+              "application/json": {
+                "schema": {
                   "$ref": "#/components/schemas/PetDTO"
                 }
               }
@@ -385,6 +458,48 @@
   },
   "components": {
     "schemas": {
+      "GetAnnouncementsResponse": {
+        "type": "object",
+        "properties": {
+          "announcements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnnouncementDTO"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of returned page, indexed from 0."
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of all items in collection."
+          }
+        }
+      },
+      "GetPetsResponse": {
+        "type": "object",
+        "properties": {
+          "pets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PetDTO"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of returned page, indexed from 0."
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of all items in collection."
+          }
+        }
+      },
       "AnnouncementDTO": {
         "type": "object",
         "properties": {
@@ -456,7 +571,7 @@
             "type": "string",
             "nullable": false
           },
-          "sex":{
+          "sex": {
             "$ref": "#/components/schemas/Sex"
           },
           "species": {
@@ -495,7 +610,7 @@
             "type": "string",
             "nullable": false
           },
-          "sex":{
+          "sex": {
             "$ref": "#/components/schemas/Sex"
           },
           "species": {
@@ -519,7 +634,7 @@
             "format": "uri",
             "nullable": true
           },
-          "status":{
+          "status": {
             "$ref": "#/components/schemas/PetStatus"
           },
           "shelter": {
@@ -625,14 +740,14 @@
             "type": "string",
             "nullable": true
           },
-          "status":{
+          "status": {
             "$ref": "#/components/schemas/UpdatePetStatus"
           }
         },
         "additionalProperties": false
       },
-      "Sex":{
-        "enum":[
+      "Sex": {
+        "enum": [
           "unknown",
           "male",
           "female",
@@ -640,16 +755,16 @@
         ],
         "type": "string"
       },
-      "PetStatus":{
-        "enum":[
+      "PetStatus": {
+        "enum": [
           "active",
           "deleted"
         ],
         "type": "string",
         "nullable": false
       },
-      "UpdatePetStatus":{
-        "enum":[
+      "UpdatePetStatus": {
+        "enum": [
           "active",
           "deleted"
         ],

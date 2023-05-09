@@ -11,19 +11,43 @@
           "AdopterEndpoints"
         ],
         "summary": "Get all adopters. Requires admin role.",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "required": true,
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of requested page, indexed from 0. Mandatory."
+            }
+          },
+          {
+            "name": "pageCount",
+            "required": true,
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of items to return. Mandatory."
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AdopterDTO"
-                  }
+                  "$ref": "#/components/schemas/GetAdoptersResponse"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad request - lack of mandatory query parameters."
           },
           "401": {
             "description": "Client error"
@@ -201,22 +225,43 @@
           "ApplicationsEndpoints"
         ],
         "summary": "Gets all applications. Requires any role. For shelter, applications are filtered only for that shelter. For adopter, applications are filtered only for that adopter. Admin gets them all.",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "required": true,
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of requested page, indexed from 0. Mandatory."
+            }
+          },
+          {
+            "name": "pageCount",
+            "required": true,
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of items to return. Mandatory."
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ApplicationDTO"
-                  }
+                  "$ref": "#/components/schemas/GetApplicationsResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Client error"
+            "description": "Bad request - lack of mandatory query parameters or incorrect role."
           },
           "401": {
             "description": "Client error"
@@ -256,6 +301,28 @@
         "summary": "Gets application for specified announcement. Requires shelter role matching with announcement's shelter.",
         "parameters": [
           {
+            "name": "pageNumber",
+            "required": true,
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of requested page, indexed from 0. Mandatory."
+            }
+          },
+          {
+            "name": "pageCount",
+            "required": true,
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of items to return. Mandatory."
+            }
+          },
+          {
             "name": "announcementId",
             "in": "path",
             "required": true,
@@ -271,13 +338,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ApplicationDTO"
-                  }
+                  "$ref": "#/components/schemas/GetApplicationsResponse"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad request - lack of mandatory query parameters."
           },
           "401": {
             "description": "Client error"
@@ -378,6 +445,48 @@
   },
   "components": {
     "schemas": {
+      "GetAdoptersResponse": {
+        "type": "object",
+        "properties": {
+          "adopters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdopterDTO"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of returned page, indexed from 0."
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of all items in collection."
+          }
+        }
+      },
+      "GetApplicationsResponse": {
+        "type": "object",
+        "properties": {
+          "applications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApplicationDTO"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of returned page, indexed from 0."
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of all items in collection."
+          }
+        }
+      },
       "AddressDTO": {
         "type": "object",
         "properties": {
@@ -659,7 +768,7 @@
   },
   "security": [
     {
-      "Bearer": [ ]
+      "Bearer": []
     }
   ]
 }
