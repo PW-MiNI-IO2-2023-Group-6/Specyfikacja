@@ -14,24 +14,22 @@
         "parameters": [
           {
             "name": "pageNumber",
-            "required": true,
             "in": "query",
             "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
-              "description": "Number of requested page, indexed from 0. Mandatory."
+              "description": "Number of requested page, indexed from 0. If null default value is assigned."
             }
           },
           {
             "name": "pageCount",
-            "required": true,
             "in": "query",
             "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
-              "description": "Number of items to return. Mandatory."
+              "description": "Number of items to return. If null default value is assigned."
             }
           },
           {
@@ -108,9 +106,6 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request - lack of mandatory query parameters."
-          },
           "401": {
             "description": "Client error"
           }
@@ -153,24 +148,22 @@
         "parameters": [
           {
             "name": "pageNumber",
-            "required": true,
             "in": "query",
             "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
-              "description": "Number of requested page, indexed from 0. Mandatory."
+              "description": "Number of requested page, indexed from 0. If null default value is assigned."
             }
           },
           {
             "name": "pageCount",
-            "required": true,
             "in": "query",
             "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
-              "description": "Number of items to return. Mandatory."
+              "description": "Number of items to return. If null default value is assigned."
             }
           }
         ],
@@ -184,9 +177,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request - lack of mandatory query parameters."
           },
           "401": {
             "description": "Unauthorized"
@@ -304,24 +294,22 @@
         "parameters": [
           {
             "name": "pageNumber",
-            "required": true,
             "in": "query",
             "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
-              "description": "Number of requested page, indexed from 0. Mandatory."
+              "description": "Number of requested page, indexed from 0. If null default value is assigned."
             }
           },
           {
             "name": "pageCount",
-            "required": true,
             "in": "query",
             "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
-              "description": "Number of items to return. Mandatory."
+              "description": "Number of items to return. If null default value is assigned."
             }
           }
         ],
@@ -335,9 +323,6 @@
               }
             },
             "description": "Success"
-          },
-          "400": {
-            "description": "Bad request - lack of mandatory query parameters."
           },
           "401": {
             "description": "Unauthorized"
