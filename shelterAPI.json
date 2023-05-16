@@ -13,7 +13,17 @@
         "summary": "Gets all shelters.",
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success", 
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShelterDTO"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -58,7 +68,14 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShelterDTO"
+                }
+              }
+            }
           },
           "404": {
             "description": "Client error"
@@ -104,7 +121,39 @@
   },
   "components": {
     "schemas": {
-      "NewAddress": {
+      "ShelterDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullShelterName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isAuthorized": {
+            "type": "boolean"
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddressDTO": {
         "type": "object",
         "properties": {
           "street": {
@@ -142,7 +191,7 @@
             "type": "string"
           },
           "address": {
-            "$ref": "#/components/schemas/NewAddress"
+            "$ref": "#/components/schemas/AddressDTO"
           }
         },
         "additionalProperties": false
