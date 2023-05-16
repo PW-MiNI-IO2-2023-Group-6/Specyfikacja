@@ -51,6 +51,7 @@
             "style": "form",
             "schema": {
               "type": "integer",
+              "nullable": true,
               "format": "int32"
             }
           },
@@ -60,6 +61,7 @@
             "style": "form",
             "schema": {
               "type": "integer",
+              "nullable": true,
               "format": "int32"
             }
           },
