@@ -383,14 +383,16 @@
             "type": "string"
           },
           "breed": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "birthday": {
             "type": "string",
             "format": "date-time"
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "photoUrl": {
             "type": "string",
@@ -417,14 +419,16 @@
             "type": "string"
           },
           "breed": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "birthday": {
             "type": "string",
             "format": "date-time"
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "photoUrl": {
             "type": "string",
