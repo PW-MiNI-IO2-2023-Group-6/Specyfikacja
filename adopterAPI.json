@@ -104,7 +104,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -141,7 +142,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -175,7 +177,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -261,7 +264,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -298,7 +302,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -328,7 +333,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -358,7 +364,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -412,19 +419,18 @@
             "format": "uuid"
           },
           "userName": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "phoneNumber": {
             "type": "string",
             "nullable": true
           },
           "email": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "address": {
-            "$ref": "#/components/schemas/AddressDTO"
+            "$ref": "#/components/schemas/AddressDTO",
+            "nullable": true
           },
           "status": {
             "$ref": "#/components/schemas/AdopterStatusDTO"
@@ -578,19 +584,18 @@
         "type": "object",
         "properties": {
           "userName": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "phoneNumber": {
             "type": "string",
             "nullable": true
           },
           "email": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "address": {
-            "$ref": "#/components/schemas/AddressDTO"
+            "$ref": "#/components/schemas/AddressDTO",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -600,8 +605,7 @@
         "properties": {
           "announcementId": {
             "type": "string",
-            "format": "uuid",
-            "nullable": true
+            "format": "uuid"
           }
         },
         "additionalProperties": false
