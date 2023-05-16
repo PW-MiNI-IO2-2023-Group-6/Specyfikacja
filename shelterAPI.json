@@ -114,7 +114,8 @@
             "type": "string"
           },
           "province": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "postalCode": {
             "type": "string"
