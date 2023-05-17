@@ -256,9 +256,6 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request - incorrect role."
-          },
           "401": {
             "description": "Client error"
           }

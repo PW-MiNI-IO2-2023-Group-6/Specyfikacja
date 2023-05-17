@@ -43,9 +43,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request - lack of mandatory query parameters."
           }
         }
       },
