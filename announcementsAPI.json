@@ -13,6 +13,26 @@
         "summary": "Gets all announcements filtered with query parameters",
         "parameters": [
           {
+            "name": "pageNumber",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of requested page, indexed from 0. If null default value is assigned."
+            }
+          },
+          {
+            "name": "pageCount",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of items to return. If null default value is assigned."
+            }
+          },
+          {
             "name": "species",
             "in": "query",
             "style": "form",
@@ -79,14 +99,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Success", 
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AnnouncementDTO"
-                  }
+                  "$ref": "#/components/schemas/GetAnnouncementsResponse"
                 }
               }
             }
@@ -130,16 +147,35 @@
           "AnnouncementsEndpoints"
         ],
         "summary": "Gets all announcements for shelter. Requires shelter role. Gets shelter id from auth claims.",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of requested page, indexed from 0. If null default value is assigned."
+            }
+          },
+          {
+            "name": "pageCount",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of items to return. If null default value is assigned."
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Success", 
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AnnouncementDTO"
-                  }
+                  "$ref": "#/components/schemas/GetAnnouncementsResponse"
                 }
               }
             }
@@ -170,7 +206,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success", 
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
@@ -258,12 +294,34 @@
           "PetEndpoints"
         ],
         "summary": "Gets all pets for shelter. Requires shelter role. Gets shelter id from auth claims.",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of requested page, indexed from 0. If null default value is assigned."
+            }
+          },
+          {
+            "name": "pageCount",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of items to return. If null default value is assigned."
+            }
+          }
+        ],
         "responses": {
           "200": {
-           "content": {
-              "application/json":{
-                "schema":{
-                  "$ref": "#/components/schemas/PetDTO"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPetsResponse"
                 }
               }
             },
@@ -296,8 +354,8 @@
         "responses": {
           "200": {
             "content": {
-              "application/json":{
-                "schema":{
+              "application/json": {
+                "schema": {
                   "$ref": "#/components/schemas/PetDTO"
                 }
               }
@@ -390,6 +448,48 @@
   },
   "components": {
     "schemas": {
+      "GetAnnouncementsResponse": {
+        "type": "object",
+        "properties": {
+          "announcements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnnouncementDTO"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of returned page, indexed from 0."
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of all items in collection."
+          }
+        }
+      },
+      "GetPetsResponse": {
+        "type": "object",
+        "properties": {
+          "pets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PetDTO"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of returned page, indexed from 0."
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of all items in collection."
+          }
+        }
+      },
       "AnnouncementDTO": {
         "type": "object",
         "properties": {
@@ -631,8 +731,8 @@
         },
         "additionalProperties": false
       },
-      "Sex":{
-        "enum":[
+      "Sex": {
+        "enum": [
           "unknown",
           "male",
           "female",

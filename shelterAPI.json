@@ -11,16 +11,35 @@
           "Endpoints"
         ],
         "summary": "Gets all shelters.",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of requested page, indexed from 0. If null default value is assigned."
+            }
+          },
+          {
+            "name": "pageCount",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of items to return. If null default value is assigned."
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success", 
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ShelterDTO"
-                  }
+                  "$ref": "#/components/schemas/GetSheltersResponse"
                 }
               }
             }
@@ -121,6 +140,27 @@
   },
   "components": {
     "schemas": {
+      "GetSheltersResponse": {
+        "type": "object",
+        "properties": {
+          "shelters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShelterDTO"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of returned page, indexed from 0."
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of all items in collection."
+          }
+        }
+      },
       "ShelterDTO": {
         "type": "object",
         "properties": {
