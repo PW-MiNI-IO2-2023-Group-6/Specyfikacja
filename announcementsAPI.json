@@ -10,7 +10,7 @@
         "tags": [
           "AnnouncementsEndpoints"
         ],
-        "summary": "Gets all announcements filtered with query parameters",
+        "summary": "Gets all announcements filtered with query parameters and with information if announcement is liked by adopter. Gets adopter id from auth claims.",
         "parameters": [
           {
             "name": "pageNumber",
@@ -288,6 +288,58 @@
         }
       }
     },
+    "/announcements/like": {
+      "put": {
+        "tags": [
+          "AnnouncementsEndpoints"
+        ],
+        "summary": "Add announcement to liked announcements for adopter provided in token. Requires adopter role.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PutAdopterLikeAnnouncementRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/announcements/allLiked": {
+      "get": {
+        "tags": [
+          "AnnouncementsEndpoints"
+        ],
+        "summary": "Gets all liked announcements for adopter provided in token. Requires adopter role.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAllLikedAnnouncementsResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/shelter/pets": {
       "get": {
         "tags": [
@@ -448,13 +500,34 @@
   },
   "components": {
     "schemas": {
-      "GetAnnouncementsResponse": {
+       "GetAllLikedAnnouncementsResponse": {
         "type": "object",
         "properties": {
           "announcements": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AnnouncementDTO"
+            },
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of returned page, indexed from 0."
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of all items in collection."
+          }
+        }
+      },
+      "GetAnnouncementsResponse": {
+        "type": "object",
+        "properties": {
+          "announcements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnnouncementWithLikeDTO"
             }
           },
           "pageNumber": {
@@ -523,6 +596,46 @@
           },
           "pet": {
             "$ref": "#/components/schemas/PetDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AnnouncementWithLikeDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "closingDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastUpdateDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AnnouncementStatus"
+          },
+          "pet": {
+            "$ref": "#/components/schemas/PetDTO"
+          },
+          "isLiked": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -678,6 +791,20 @@
           "country": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PutAdopterLikeAnnouncementRequest": {
+        "type": "object",
+        "properties": {
+          "announcementId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "isLiked": {
+            "type": "boolean",
+            "description": "Information if adopter have just liked announcement (true) or disliked announcement (false)."
           }
         },
         "additionalProperties": false
