@@ -71,6 +71,7 @@
             "style": "form",
             "schema": {
               "type": "integer",
+              "nullable": true,
               "format": "int32"
             }
           },
@@ -80,6 +81,7 @@
             "style": "form",
             "schema": {
               "type": "integer",
+              "nullable": true,
               "format": "int32"
             }
           },
@@ -197,7 +199,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -343,7 +346,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -415,7 +419,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -535,12 +540,10 @@
         "type": "object",
         "properties": {
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "description": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "petId": {
             "type": "string",
@@ -553,15 +556,13 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string",
-            "nullable": false
+            "type": "string"
           },
           "sex": {
             "$ref": "#/components/schemas/Sex"
           },
           "species": {
-            "type": "string",
-            "nullable": false
+            "type": "string"
           },
           "breed": {
             "type": "string",
@@ -588,19 +589,16 @@
         "properties": {
           "id": {
             "type": "string",
-            "format": "uuid",
-            "nullable": false
+            "format": "uuid"
           },
           "name": {
-            "type": "string",
-            "nullable": false
+            "type": "string"
           },
           "sex": {
             "$ref": "#/components/schemas/Sex"
           },
           "species": {
-            "type": "string",
-            "nullable": false
+            "type": "string"
           },
           "breed": {
             "type": "string",
@@ -696,7 +694,8 @@
             "nullable": true
           },
           "status": {
-            "$ref": "#/components/schemas/AnnouncementStatus"
+            "$ref": "#/components/schemas/AnnouncementStatus",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -726,7 +725,8 @@
             "nullable": true
           },
           "status": {
-            "$ref": "#/components/schemas/UpdatePetStatus"
+            "$ref": "#/components/schemas/PetStatus",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -745,16 +745,7 @@
           "active",
           "deleted"
         ],
-        "type": "string",
-        "nullable": false
-      },
-      "UpdatePetStatus": {
-        "enum": [
-          "active",
-          "deleted"
-        ],
-        "type": "string",
-        "nullable": true
+        "type": "string"
       }
     },
     "securitySchemes": {

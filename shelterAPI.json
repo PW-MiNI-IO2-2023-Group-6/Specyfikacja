@@ -210,12 +210,10 @@
             "nullable": true
           },
           "postalCode": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "country": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -224,20 +222,16 @@
         "type": "object",
         "properties": {
           "userName": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "phoneNumber": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "email": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "fullShelterName": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "address": {
             "$ref": "#/components/schemas/AddressDTO"
