@@ -578,8 +578,7 @@
           },
           "photoUrl": {
             "type": "string",
-            "format": "uri",
-            "nullable": true
+            "format": "uri"
           }
         },
         "additionalProperties": false
@@ -614,8 +613,7 @@
           },
           "photoUrl": {
             "type": "string",
-            "format": "uri",
-            "nullable": true
+            "format": "uri"
           },
           "status": {
             "$ref": "#/components/schemas/PetStatus"
