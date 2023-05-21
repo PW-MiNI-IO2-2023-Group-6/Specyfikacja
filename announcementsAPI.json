@@ -303,11 +303,11 @@
         ],
         "summary": "Adds or deletes announcement from liked announcements depending on boolean value in parameters. Requires adopter role. Gets adopter id from auth claims.",
         "parameters": [
-          {
+         {
             "name": "announcementId",
-            "in": "query",
+            "in": "path",
             "required": true,
-            "style": "form",
+            "style": "simple",
             "schema": {
               "type": "string"
             }
