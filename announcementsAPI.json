@@ -288,22 +288,32 @@
         }
       }
     },
-    "/announcements/like": {
+    "/announcements/{announcementId}/like": {
       "put": {
         "tags": [
           "AnnouncementsEndpoints"
         ],
-        "summary": "Add announcement to liked announcements for adopter provided in token. Requires adopter role.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PutAdopterLikeAnnouncementRequest"
-              }
+        "summary": "Adds or deletes announcement from liked announcements depending on boolean value in parameters. Requires adopter role. Gets adopter id from auth claims.",
+        "parameters": [
+          {
+            "name": "announcementId",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
             }
           },
-          "required": true
-        },
+          {
+            "name": "isLiked",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
