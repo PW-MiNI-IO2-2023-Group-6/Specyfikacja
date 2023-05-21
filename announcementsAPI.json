@@ -95,6 +95,14 @@
                 "type": "string"
               }
             }
+          },
+          {
+            "name": "isLiked",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
@@ -324,32 +332,6 @@
         }
       }
     },
-    "/announcements/allLiked": {
-      "get": {
-        "tags": [
-          "AnnouncementsEndpoints"
-        ],
-        "summary": "Gets all liked announcements for adopter provided in token. Requires adopter role.",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetAllLikedAnnouncementsResponse"
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
     "/shelter/pets": {
       "get": {
         "tags": [
@@ -510,27 +492,6 @@
   },
   "components": {
     "schemas": {
-       "GetAllLikedAnnouncementsResponse": {
-        "type": "object",
-        "properties": {
-          "announcements": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AnnouncementDTO"
-            },
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Number of returned page, indexed from 0."
-          },
-          "count": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Number of all items in collection."
-          }
-        }
-      },
       "GetAnnouncementsResponse": {
         "type": "object",
         "properties": {
