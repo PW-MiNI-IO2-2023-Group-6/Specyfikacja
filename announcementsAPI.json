@@ -10,7 +10,7 @@
         "tags": [
           "AnnouncementsEndpoints"
         ],
-        "summary": "Gets all announcements filtered with query parameters",
+        "summary": "Gets all announcements filtered with query parameters and with information if announcement is liked by adopter. Gets adopter id from auth claims.",
         "parameters": [
           {
             "name": "pageNumber",
@@ -94,6 +94,14 @@
               "items": {
                 "type": "string"
               }
+            }
+          },
+          {
+            "name": "isLiked",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "boolean"
             }
           }
         ],
@@ -288,6 +296,51 @@
         }
       }
     },
+    "/announcements/{announcementId}/like": {
+      "put": {
+        "tags": [
+          "AnnouncementsEndpoints"
+        ],
+        "summary": "Adds or deletes announcement from liked announcements depending on boolean value in parameters. Requires adopter role. Gets adopter id from auth claims.",
+        "parameters": [
+         {
+            "name": "announcementId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "isLiked",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Announcement with provided id does not exists"
+          }
+        }
+      }
+    },
     "/shelter/pets": {
       "get": {
         "tags": [
@@ -454,7 +507,7 @@
           "announcements": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AnnouncementDTO"
+              "$ref": "#/components/schemas/AnnouncementWithLikeDTO"
             }
           },
           "pageNumber": {
@@ -523,6 +576,46 @@
           },
           "pet": {
             "$ref": "#/components/schemas/PetDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AnnouncementWithLikeDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "closingDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastUpdateDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AnnouncementStatus"
+          },
+          "pet": {
+            "$ref": "#/components/schemas/PetDTO"
+          },
+          "isLiked": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
