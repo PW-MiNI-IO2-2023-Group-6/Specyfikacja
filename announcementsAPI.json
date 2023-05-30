@@ -624,7 +624,6 @@
         "enum": [
           "Open",
           "Closed",
-          "DuringVerification",
           "Deleted"
         ],
         "type": "string"
